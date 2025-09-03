@@ -1,0 +1,10 @@
+# Global ignores
+node_modules/
+dist/
+.env
+*.log
+__pycache__/
+*.pyc
+*.pyo
+*.pdf
+*.docx
