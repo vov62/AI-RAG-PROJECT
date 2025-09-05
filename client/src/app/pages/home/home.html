@@ -1,29 +1,34 @@
 <div class="home">
 
-
     <div class="chat-container">
         <header class="chat-header">
             <h2>AI Chat</h2>
         </header>
 
         <main class="chat-history">
-            <!-- <app-skeleton></app-skeleton> -->
 
+            @if(isLoading()){
+            <app-skeleton></app-skeleton>
 
-            <!-- <p class="messages blue">
-                תיגש לסטרטודק
-            </p>
+            }@else {
+            @for (chat of chatHistory(); track $index) {
+            <div class="messages blue">
+                <strong>🧑 User:</strong> {{ chat.user }}
+            </div>
+            <div class="messages green">
+                <strong>🤖 AI:</strong> {{ chat.bot }}
+            </div>
 
-            <p class="messages green">
-                תבחר את העכבר
-            </p> -->
+            }
+
+            }
 
         </main>
 
         <footer>
-            <form action="#" class="chat-input">
-                <input type="text" id="message-input" placeholder="Type your message...">
-                <button type="submit" class="send-button">Send</button>
+            <form [formGroup]="formInput" (ngSubmit)="sendQuery()" class="chat-input">
+                <input type="text" formControlName="userInput" id="message-input" placeholder="Type your message...">
+                <button class="send-button" type="submit">Send</button>
             </form>
         </footer>
     </div>

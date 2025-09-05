@@ -7,13 +7,13 @@ import google.generativeai as genai
 load_dotenv()
 
 # מקבל את ה-API Key של Gemini מהסביבה
-GEMINI_API_KEY = os.getenv("CHROMA_GOOGLE_GENAI_API_KEY")
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+# הגדרת המפתח עבור Gemini
+genai.configure(api_key=GEMINI_API_KEY)
 
 if not GEMINI_API_KEY:
     raise ValueError("Gemini API key is missing! Please set CHROMA_GOOGLE_GENAI_API_KEY in your .env file.")
 
-# הגדרת המפתח עבור Gemini
-genai.configure(api_key=GEMINI_API_KEY)
 
 # שם המודל שבו נשתמש
 DEFAULT_MODEL = "gemini-2.0-flash"
@@ -41,7 +41,7 @@ def get_gemini_answer(prompt, model_name=DEFAULT_MODEL, temperature=0.2):
     
     except Exception as e:
         print(f"[Gemini Error] {str(e)}")
-        return "אירעה שגיאה בעת תקשורת עם Gemini."
+        return "Gemini network error."
 
 
 def summarize_context(context, user_query, model_name=DEFAULT_MODEL):
@@ -53,13 +53,13 @@ def summarize_context(context, user_query, model_name=DEFAULT_MODEL):
     :return: סיכום מתומצת של המידע
     """
     prompt = f"""
-    סכם את הקטעים הבאים בעברית ברורה וקצרה,
-    כך שהתשובה תענה על השאלה הבאה:
+            summarize the next contexts so the answer will answer
+            the next user query:
+ 
+            question: {user_query}
     
-    שאלה: {user_query}
-    
-    קונטקסט:
-    {context}
-    """
+            context:
+            {context}
+             """
 
     return get_gemini_answer(prompt, model_name=model_name, temperature=0.1)
