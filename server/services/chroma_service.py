@@ -1,77 +1,82 @@
-# server/services/chroma_service.py
-import chromadb
-from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction
 import os
+import chromadb
+from pypdf import PdfReader
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction
 
-# קובץ זה מטפל בכל מה שקשור ל-ChromaDB
-# אחראי על יצירת חיבור, קריאת מסמכים, הוספה ושאילתות
+# === הגדרות בסיס ===
+CHROMA_DB_DIR = "./server/chroma_db"  # מיקום לשמירת בסיס הנתונים
+PDF_DIR = "./data"             # תיקייה שבה שמורים ה-PDFים
+COLLECTION_NAME = "knowledge_base"    # שם הקולקציה הראשית
 
-# מיקום שבו נשמור את הדאטה בצורה פרסיסטנטית
-CHROMA_DB_DIR = "./server/chroma_db"
+# === פונקציות עזר ===
 
-# שם הקולקציה הראשית
-COLLECTION_NAME = "knowledge_base"
-
-
-# יצירת פונקציית Embedding
 def get_embedding_function():
     """
-    יוצרת פונקציה ליצירת embeddings.
-    כאן בחרנו ב-Sentence Transformers multilingual,
-    כדי לתמוך גם בעברית וגם באנגלית.
+    יוצר פונקציית Embedding - אחראית להפוך טקסט למספרים
+    כדי ש-ChromaDB יוכל לבצע חיפוש סמנטי.
     """
     return SentenceTransformerEmbeddingFunction(
         model_name="sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
     )
 
-# חיבור ל-ChromaDB
-def get_chroma_client():
-    """
-    יוצר חיבור ל-ChromaDB עם אפשרות שמירה פרסיסטנטית בדיסק.
-    """
-    return chromadb.PersistentClient(path=CHROMA_DB_DIR)
-
-# יצירת קולקציה אם לא קיימת
 def get_or_create_collection():
-    """
-    מוודא שקיימת קולקציה ראשית ב-ChromaDB,
-    ואם לא - יוצרת אותה.
-    """
-    chroma_client = get_chroma_client()
-    return chroma_client.get_or_create_collection(
+    """יוצר או מחזיר collection קיימת בשם שקבענו."""
+    """יוצר חיבור פרסיסטנטי ל-ChromaDB (שנשמר בדיסק)."""
+    client = chromadb.PersistentClient(path=CHROMA_DB_DIR)
+    return client.get_or_create_collection(
         name=COLLECTION_NAME,
         embedding_function=get_embedding_function()
     )
 
-# הוספת מסמכים חדשים
-def add_documents(documents, metadatas=None, ids=None):
+# === שלב 1: טעינת PDFים לתוך ChromaDB ===
+def load_pdfs_into_chroma():
     """
-    מוסיפה מסמכים חדשים ל-collection.
-
-    :param documents: רשימת טקסטים (chunks)
-    :param metadatas: רשימת metadata (למשל {"source": "contract.pdf"})
-    :param ids: מזהים ייחודיים
+    קורא את כל ה-PDFים בתיקייה,
+    מפרק אותם לטקסטים קטנים (chunks),
+    ומכניס אותם לתוך ChromaDB.
     """
     collection = get_or_create_collection()
-    collection.add(documents=documents, metadatas=metadatas, ids=ids)
+    print("Loading PDFs into ChromaDB...")
 
-# ביצוע שאילתה
+    for filename in os.listdir(PDF_DIR):
+        if filename.endswith(".pdf"):
+            file_path = os.path.join(PDF_DIR, filename)
+            print(f"Processing {filename}...")
+
+            # קריאת כל הדפים מה-PDF
+            reader = PdfReader(file_path)
+            pdf_texts = [page.extract_text() for page in reader.pages if page.extract_text()]
+
+            # חיבור הטקסט כולו
+            full_text = "\n\n".join(pdf_texts)
+
+            # פיצול הטקסט ל-chunks
+            splitter = RecursiveCharacterTextSplitter(
+                chunk_size=1000,
+                chunk_overlap=100
+            )
+            chunks = splitter.split_text(full_text)
+
+            # יצירת IDs ייחודיים
+            ids = [f"{filename}_{i}" for i in range(len(chunks))]
+
+            # הוספה ל-collection
+            collection.add(documents=chunks, ids=ids)
+
+    print(f"Finished loading PDFs. Total documents in DB: {collection.count()}")
+
+# === שלב 2: חיפוש במסמכים ===
 def query_documents(query, n_results=5):
     """
-    מבצע חיפוש במסמכים לפי השאילתה של המשתמש.
-
-    :param query: טקסט החיפוש
-    :param n_results: כמה תוצאות להביא
-    :return: תוצאות Chromadb
+    מבצע חיפוש במסמכים לפי שאלה של המשתמש.
     """
     collection = get_or_create_collection()
     return collection.query(query_texts=[query], n_results=n_results)
 
-# מחיקת הקולקציה (למטרות reset)
-def reset_collection():
-    """
-    מוחק לחלוטין את הקולקציה הראשית.
-    שימושי אם רוצים לבנות את המאגר מחדש.
-    """
-    chroma_client = get_chroma_client()
-    chroma_client.delete_collection(name=COLLECTION_NAME)
+# === שלב 3: איפוס כללי (אם רוצים להתחיל מחדש) ===
+# def reset_collection():
+#     """מוחק את כל הקולקציה ומתחיל מחדש."""
+#     client = get_chroma_client()
+#     client.delete_collection(name=COLLECTION_NAME)
+#     print("Collection has been reset!")
