@@ -2,33 +2,53 @@
 
     <div class="chat-container">
         <header class="chat-header">
-            <h2>AI Chat</h2>
+            <h2>🤖 AI Assistant</h2>
         </header>
 
-        <main class="chat-history">
-
-            @if(isLoading()){
-            <app-skeleton></app-skeleton>
-
-            }@else {
-            @for (chat of chatHistory(); track $index) {
-            <div class="messages blue">
-                <strong>🧑 User:</strong> {{ chat.user }}
+        <main class="chat-history" #chatContainer>
+            <!-- @for (chat of chatHistory(); track $index) {
+            <div class="messages blue" #message>
+                🧑<strong> User:</strong> {{ chat.user }}
             </div>
-            <div class="messages green">
+            <div class="messages green" #message>
                 <strong>🤖 AI:</strong> {{ chat.bot }}
             </div>
 
+            } -->
+
+            @for (chat of chatHistory(); track $index) {
+
+            <div class="messages user-message">
+                <div class="bubble user" #message>
+                    🧑<strong> User:</strong> {{ chat.user }}
+                </div>
+            </div>
+            <div class="messages ai-message">
+                <div class="bubble ai" #message dir="auto">
+                    <!-- <strong>🤖 AI:</strong> {{ chat.bot }} -->
+                    <strong>🤖 AI: </strong>
+                    <div [innerHTML]="formatAIResponse(chat.bot)"></div>
+                </div>
+            </div>
             }
 
+
+            @if(isLoading()){
+            <app-skeleton></app-skeleton>
+            }
+
+            @if ((errorMessage())) {
+            <div class="error-msg">
+                ⚠️ {{errorMessage()}}
+            </div>
             }
 
         </main>
 
         <footer>
             <form [formGroup]="formInput" (ngSubmit)="sendQuery()" class="chat-input">
-                <input type="text" formControlName="userInput" id="message-input" placeholder="Type your message...">
-                <button class="send-button" type="submit">Send</button>
+                <input type="text" formControlName="userInput" id="message-input" placeholder="הכנס שאלה...">
+                <button class="send-button" [disabled]="isLoading()" type="submit">שלח</button>
             </form>
         </footer>
     </div>

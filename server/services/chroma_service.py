@@ -2,22 +2,28 @@ import os
 import chromadb
 from pypdf import PdfReader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction
+# from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction
+from chromadb.utils.embedding_functions import OpenAIEmbeddingFunction
+
 
 # === הגדרות בסיס ===
 CHROMA_DB_DIR = "./server/chroma_db"  # מיקום לשמירת בסיס הנתונים
 PDF_DIR = "./data"             # תיקייה שבה שמורים ה-PDFים
 COLLECTION_NAME = "knowledge_base"    # שם הקולקציה הראשית
 
-# === פונקציות עזר ===
 
 def get_embedding_function():
     """
     יוצר פונקציית Embedding - אחראית להפוך טקסט למספרים
     כדי ש-ChromaDB יוכל לבצע חיפוש סמנטי.
     """
-    return SentenceTransformerEmbeddingFunction(
-        model_name="sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
+    # return SentenceTransformerEmbeddingFunction(
+    #     model_name="sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
+    # )
+
+    return OpenAIEmbeddingFunction(
+        api_key=os.getenv("GEMINI_API_KEY"),
+        model_name="text-embedding-3-large"       
     )
 
 def get_or_create_collection():
@@ -53,8 +59,8 @@ def load_pdfs_into_chroma():
 
             # פיצול הטקסט ל-chunks
             splitter = RecursiveCharacterTextSplitter(
-                chunk_size=1000,
-                chunk_overlap=100
+                chunk_size=500,
+                chunk_overlap=50
             )
             chunks = splitter.split_text(full_text)
 
@@ -67,16 +73,9 @@ def load_pdfs_into_chroma():
     print(f"Finished loading PDFs. Total documents in DB: {collection.count()}")
 
 # === שלב 2: חיפוש במסמכים ===
-def query_documents(query, n_results=5):
+def query_documents(query, n_results=8):
     """
     מבצע חיפוש במסמכים לפי שאלה של המשתמש.
     """
     collection = get_or_create_collection()
     return collection.query(query_texts=[query], n_results=n_results)
-
-# === שלב 3: איפוס כללי (אם רוצים להתחיל מחדש) ===
-# def reset_collection():
-#     """מוחק את כל הקולקציה ומתחיל מחדש."""
-#     client = get_chroma_client()
-#     client.delete_collection(name=COLLECTION_NAME)
-#     print("Collection has been reset!")
