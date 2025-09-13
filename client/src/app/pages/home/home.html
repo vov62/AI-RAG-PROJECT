@@ -6,16 +6,6 @@
         </header>
 
         <main class="chat-history" #chatContainer>
-            <!-- @for (chat of chatHistory(); track $index) {
-            <div class="messages blue" #message>
-                🧑<strong> User:</strong> {{ chat.user }}
-            </div>
-            <div class="messages green" #message>
-                <strong>🤖 AI:</strong> {{ chat.bot }}
-            </div>
-
-            } -->
-
             @for (chat of chatHistory(); track $index) {
 
             <div class="messages user-message">
