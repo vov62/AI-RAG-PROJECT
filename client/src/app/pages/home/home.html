@@ -30,8 +30,9 @@
         @if ((errorMessage())) {
         <div class="error-msg">
             ⚠️ {{errorMessage()}}
-        </div>
 
+        </div>
+        }
         <footer>
             <form [formGroup]="formInput" (ngSubmit)="sendQuery()" class="chat-input">
                 <input type="text" formControlName="userInput" id="message-input" placeholder="הכנס שאלה...">
