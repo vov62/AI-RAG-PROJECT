@@ -16,7 +16,6 @@
             </div>
             <div class="messages ai-message">
                 <div class="bubble ai" #message dir="auto">
-                    <!-- <strong>🤖 AI:</strong> {{ chat.bot }} -->
                     <strong>🤖 AI: </strong>
                     <div [innerHTML]="formatAIResponse(chat.bot)"></div>
                 </div>
@@ -39,6 +38,7 @@
                 <button class="send-button" [disabled]="isLoading()" type="submit">שלח</button>
             </form>
         </footer>
-    </div>
 
+
+    </div>
 </div>
