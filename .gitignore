@@ -9,4 +9,4 @@ __pycache__/
 *.pdf
 *.docx
 venv/
-/server/server
+/server/server/chroma_db/
