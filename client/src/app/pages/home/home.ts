@@ -4,8 +4,6 @@ import { HttpClient } from '@angular/common/http';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ChatService } from '../../services/chat.service';
 import { CommonModule } from '@angular/common';
-import { marked } from 'marked';
-
 
 @Component({
   selector: 'app-home',
@@ -53,7 +51,6 @@ export class Home implements AfterViewInit {
         // console.log('Query response:', res);
         this.chatService.addToHistory(this.userInput(), res.answer)
         localStorage.setItem("chatHistory", JSON.stringify(this.chatHistory()))
-        // console.log(this.chatHistory);
         this.isLoading.set(false);
         this.formInput.reset();
         this.isLoading.set(false);

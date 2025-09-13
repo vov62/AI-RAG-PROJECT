@@ -22,19 +22,16 @@
                 </div>
             </div>
             }
-
-
-            @if(isLoading()){
-            <app-skeleton></app-skeleton>
-            }
-
-            @if ((errorMessage())) {
-            <div class="error-msg">
-                ⚠️ {{errorMessage()}}
-            </div>
-            }
-
         </main>
+
+        @if(isLoading()){
+        <app-skeleton></app-skeleton>
+        }
+
+        @if ((errorMessage())) {
+        <div class="error-msg">
+            ⚠️ {{errorMessage()}}
+        </div>
 
         <footer>
             <form [formGroup]="formInput" (ngSubmit)="sendQuery()" class="chat-input">

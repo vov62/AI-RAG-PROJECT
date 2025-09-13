@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable, signal, WritableSignal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 
 @Injectable({
     providedIn: 'root'
@@ -13,6 +13,7 @@ export class ChatService {
     postquery(body: { query: string }) {
         return this.http.post(`${this.baseUrl}/query`, body)
     }
+
 
     addToHistory(userInput: string, aiResponse: string) {
         this.chatHistory.update(history => [
