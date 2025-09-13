@@ -15,15 +15,12 @@ import { marked } from 'marked';
 })
 export class Home implements AfterViewInit {
 
-  private baseUrl: string = 'http://127.0.0.1:5000/api';
   private chatService = inject(ChatService)
   http = inject(HttpClient);
 
   @ViewChildren('message') messages!: QueryList<ElementRef>;
 
   userInput: WritableSignal<string> = signal('');
-  // userInput = signal<string>('');
-  aiResponse = signal<string>('');
   isLoading = signal(false);
   errorMessage = signal<string>('');
   chatHistory = this.chatService.getHistory()
@@ -31,6 +28,11 @@ export class Home implements AfterViewInit {
   formInput: FormGroup = new FormGroup({
     userInput: new FormControl('', [Validators.required]),
   })
+
+
+  ngOnInit() {
+    this.chatService.loadHistoryFromLocalStorage();
+  }
 
   ngAfterViewInit() {
     // ברגע שמספר ההודעות משתנה — גלול למטה
@@ -43,18 +45,19 @@ export class Home implements AfterViewInit {
   sendQuery() {
     this.userInput.set(this.formInput.value.userInput)
     if (!this.userInput()?.trim()) return;
+
     this.isLoading.set(true)
 
-    this.http.post(`${this.baseUrl}/query`, { query: this.userInput() }).subscribe({
-      // this.chatService.postquery({ query: this.userInput }).subscribe({
+    this.chatService.postquery({ query: this.userInput() }).subscribe({
       next: (res: any) => {
         // console.log('Query response:', res);
         this.chatService.addToHistory(this.userInput(), res.answer)
-        // localStorage.setItem("user", this.chatHistory)
+        localStorage.setItem("chatHistory", JSON.stringify(this.chatHistory()))
         // console.log(this.chatHistory);
-        this.aiResponse.set(res.answer)
+        this.isLoading.set(false);
         this.formInput.reset();
-        this.isLoading.set(false)
+        this.isLoading.set(false);
+        this.scrollToBottom();
       },
       error: (err) => {
         console.error('Error from server:', err);
@@ -62,17 +65,19 @@ export class Home implements AfterViewInit {
         this.isLoading.set(false);
       }
     })
+    setTimeout(() => this.scrollToBottom(), 0);
+
   }
 
   private scrollToBottom() {
     const container = document.querySelector('.chat-history');
-    if (container) {
-      container.scrollTo({
-        top: container.scrollHeight,
-        behavior: 'smooth'
+    if (!container) return;
 
-      })
-    }
+    container.scrollTo({
+      top: container.scrollHeight,
+      behavior: 'smooth'
+    })
+
   }
 
 

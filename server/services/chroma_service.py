@@ -22,7 +22,7 @@ def get_embedding_function():
     # )
 
     return OpenAIEmbeddingFunction(
-        api_key=os.getenv("GEMINI_API_KEY"),
+        api_key=os.getenv("OPENAI_API_KEY"),
         model_name="text-embedding-3-large"       
     )
 
