@@ -21,6 +21,7 @@ export class Home implements AfterViewInit {
   userInput: WritableSignal<string> = signal('');
   isLoading = signal(false);
   errorMessage = signal<string>('');
+  isDarkMode = signal(false);
   chatHistory = this.chatService.getHistory()
 
   formInput: FormGroup = new FormGroup({
@@ -44,6 +45,7 @@ export class Home implements AfterViewInit {
     this.userInput.set(this.formInput.value.userInput)
     if (!this.userInput()?.trim()) return;
 
+    this.errorMessage.set('');
     this.isLoading.set(true)
 
     this.chatService.postquery({ query: this.userInput() }).subscribe({
@@ -95,4 +97,42 @@ export class Home implements AfterViewInit {
     return `<ul dir="rtl">${html}</ul>`;
   }
 
+
+  toggleDarkMode() {
+    this.isDarkMode.set(!this.isDarkMode())
+    // console.log('change');
+  }
+
+  // ניסוח של השאלה
+  phraseWithAi() {
+    const userInput = this.formInput.value.userInput?.trim();
+
+    if (!userInput) {
+      this.errorMessage.set('אנא הזן שאלה לפני ניסוח מחדש.');
+      return;
+    }
+
+    this.isLoading.set(true);
+    this.chatService.rephraseQuery(userInput).subscribe({
+      next: (res: any) => {
+        console.log("rephrased_query:", res);
+
+        if (res.rephrased_query) {
+          this.formInput.patchValue({ userInput: res.rephrased_query })
+        } else {
+          this.errorMessage.set('לא התקבלה תשובה מנוסחת מ-AI')
+        }
+        this.isLoading.set(false)
+      },
+      error: (err) => {
+        console.log('Error rephrasing query:', err);
+        this.errorMessage.set('שגיאה בעת ניסוח מחדש, נסה שוב')
+        this.isLoading.set(false)
+
+      },
+    })
+
+  }
 }
+
+

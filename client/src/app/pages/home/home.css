@@ -1,33 +1,48 @@
 .home {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    background: #ffffff;
+    /* display: flex; */
+    /* flex-direction: column; */
+    /* justify-content: center; */
+    border: 1px solid #000;
+    /* height: 100vh; */
+    /* background: #ffffff; */
     font-family: Arial, sans-serif;
 }
 
 .chat-container {
     display: flex;
     flex-direction: column;
+    margin: 0 auto;
     flex-grow: 1;
     padding: 20px;
-    height: 90vh;
+    height: 100vh;
+    max-width: 70%;
 }
 
 .chat-header {
     text-align: center;
-    background-color: #0078ff;
+    background-color: var(--chat-header, #0078ff);
     color: white;
     padding: 10px;
     border-radius: 8px;
     margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row-reverse;
+    align-items: center;
+}
+
+.theme-toggle {
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
 }
 
 .chat-history {
     flex-grow: 1;
     overflow-y: auto;
     padding: 10px;
-    background: #f9f9f9;
+    background: var(--chat-bg, #f9f9f9);
     border: 1px solid #ddd;
     border-radius: 8px;
     margin-bottom: 10px;
@@ -56,14 +71,14 @@
 }
 
 .bubble.user {
-    background: #0078ff;
+    background: var(--user-bubble-bg, #0078ff);
     color: #fff;
     text-align: right;
 }
 
 .bubble.ai {
-    background: #e9ecef;
-    color: #000;
+    background: var(--bubble-bg, #e9ecef);
+    color: var(--bubble-text, #000);
 }
 
 
@@ -80,23 +95,42 @@
     font-weight: bold;
 }
 
+.retry-btn {
+    background-color: #b00020;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.retry-btn:hover {
+    background-color: #8b0018;
+}
+
+
 .chat-input {
     display: flex;
     margin-top: 10px;
 }
 
-#message-input {
+.chat-input input {
+    background-color: var(--bubble-bg, #fff);
+    color: var(--bubble-text);
     flex-grow: 1;
-    padding: 10px;
+    padding: 12px;
     border: 1px solid #ccc;
     border-radius: 8px;
     outline: none;
     font-size: 14px;
 }
 
+
 .send-button {
     padding: 10px 20px;
-    background-color: #0078ff;
+    background-color: var(--bubble-bg, #0078ff);
+    /* background-color: #0078ff; */
     color: white;
     border: none;
     border-radius: 8px;
@@ -112,4 +146,14 @@
 .send-button:disabled {
     background-color: grey;
     cursor: not-allowed;
+}
+
+.chat-container.dark-mode {
+    /* background-color: #1e1e1e; */
+    --bubble-bg: #2a2a2a;
+    --bubble-text: #fff;
+    --user-bubble-bg: none;
+    --chat-bg: #1e1e1e;
+    --chat-header: #1e1e1e;
+
 }

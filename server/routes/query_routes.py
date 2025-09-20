@@ -20,40 +20,51 @@ def ping():
     return jsonify({"message": "Flask API is running!"})
 
 # === 4. קבלת שאלה מהמשתמש ===
+
+
 @query_bp.route("/query", methods=["POST"])
 def query():
     data = request.get_json()
-    user_query = data.get("query", "")
-
+    user_query = data.get("query", "").strip() 
+  
     if not user_query:
         return jsonify({"error": "query text not provided"}), 400
 
     # 4.1 שליפת המסמכים הרלוונטיים מ-ChromaDB
-    chroma_result = query_documents(user_query,n_results=5)
-    retrieved_texts = chroma_result.get("documents", [[]])[0]
+    try:
+        chroma_result = query_documents(user_query, n_results=5)
+        retrieved_texts = chroma_result.get("documents", [[]])[0]
+    except Exception as e:
+        return jsonify({"error": f"Failed to query ChromaDB: {str(e)}"}), 500
+
+    # chroma_result = query_documents(user_query,n_results=5)
 
     if not retrieved_texts:
         return jsonify({
             "query_received": user_query,
             "answer": "no relevant information found in the documents."
-        })
+        }),404
 
-
-    top_relevant = "\n\n".join(retrieved_texts)
 
     # 4.2 יצירת תשובה עם Gemini
+    top_relevant = "\n\n".join(retrieved_texts)
     prompt = f"""
             You are a document-based assistant.
-            Answer the following question using ONLY the information provided in the documents.
+            Answer the following question using ONLY the information provided in the documents and 
+            only in hebrew language.
+            Format your answer in clear Markdown, with bullet points if needed.
             If the answer is not in the documents, respond: 
             "אין לי מספיק מידע לענות על זה. נא נסח את שאלתך מחדש "
 
-             User question: {user_query}
+            User question: {user_query}
 
             Relevant documents:
             {top_relevant}
             """
-    answer = get_gemini_answer(prompt)
+    try:
+        answer = get_gemini_answer(prompt)
+    except Exception as e:
+        return jsonify({"error": f"Gemini API error: {str(e)}"}), 502
 
     # 4.3 החזרת תשובה לאנגולר
     return jsonify({
@@ -61,3 +72,39 @@ def query():
         "retrieved_docs_count": len(retrieved_texts),
         "answer": answer
     })
+
+
+# rephrase route
+@query_bp.route("/rephrase", methods=["POST"])
+def rephrase_query():
+    data = request.get_json()
+    user_query = data.get("query", "").strip()
+
+    if not user_query:
+        return jsonify({"error": "query text is missing"}), 400
+    
+    prompt = f"""
+            You are an assistant that specializes in rewriting Hebrew sentences clearly and accurately.
+
+            Your task:
+            - Rewrite the following user question in **Hebrew**.
+            - Keep the **original meaning** exactly the same.
+            - Make the question **clearer, more natural, and grammatically correct**.
+            - Do NOT translate to another language.
+            - Respond **only** with the rewritten question, without explanations or extra text.
+
+            User question: "{user_query}"
+            """
+    
+    try:
+        rephrased = get_gemini_answer(prompt)
+        
+        return jsonify({
+            "original_query": user_query,
+            "rephrased_query": rephrased
+        })
+    except Exception as e:
+        return jsonify({
+            "error":"Failed to rephrase query",
+            "details": str(e)
+        }), 500

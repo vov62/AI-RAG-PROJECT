@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 
 @Injectable({
@@ -10,11 +10,17 @@ export class ChatService {
     chatHistory = signal<{ user: string, bot: string }[]>([]);
     private baseUrl: string = 'http://127.0.0.1:5000/api';
 
-    postquery(body: { query: string }) {
-        return this.http.post(`${this.baseUrl}/query`, body)
+    // שליחת יוזר אינפוט
+    postquery(userQuery: { query: string }) {
+        return this.http.post(`${this.baseUrl}/query`, userQuery)
+    }
+    // ניסוח טקסט מחדש
+    rephraseQuery(query: string) {
+        const headers = new HttpHeaders({ 'Content-Type': 'application/json' })
+        return this.http.post(`${this.baseUrl}/rephrase`, { query }, { headers });
     }
 
-
+    // הוספת טקסט להיסטוריה
     addToHistory(userInput: string, aiResponse: string) {
         this.chatHistory.update(history => [
             ...history,
@@ -37,5 +43,8 @@ export class ChatService {
             this.chatHistory.set(JSON.parse(savedHistory));
         }
     }
+
+
+
 
 }

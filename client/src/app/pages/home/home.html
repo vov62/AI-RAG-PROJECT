@@ -1,8 +1,15 @@
 <div class="home">
 
-    <div class="chat-container">
+    <div class="chat-container" [class.dark-mode]="isDarkMode()">
         <header class="chat-header">
-            <h2>🤖 AI Assistant</h2>
+            <h2> AI Assistant 🤖</h2>
+
+            <div>
+                <button class="theme-toggle" (click)="toggleDarkMode()">
+                    {{ isDarkMode() ? '☀️' : '🌙' }}
+                </button>
+            </div>
+
         </header>
 
         <main class="chat-history" #chatContainer>
@@ -20,26 +27,29 @@
                     <div [innerHTML]="formatAIResponse(chat.bot)"></div>
                 </div>
             </div>
+
+            }
+            @if(isLoading()){
+            <app-skeleton></app-skeleton>
+            }
+            @if ((errorMessage())) {
+            <div class="error-msg">
+                ⚠️ {{errorMessage()}}
+                <div>
+                    <button class="retry-btn" (click)="sendQuery()">Reload Again</button>
+                </div>
+            </div>
             }
         </main>
 
-        @if(isLoading()){
-        <app-skeleton></app-skeleton>
-        }
-
-        @if ((errorMessage())) {
-        <div class="error-msg">
-            ⚠️ {{errorMessage()}}
-
-        </div>
-        }
         <footer>
             <form [formGroup]="formInput" (ngSubmit)="sendQuery()" class="chat-input">
-                <input type="text" formControlName="userInput" id="message-input" placeholder="הכנס שאלה...">
+                <input type="text" formControlName="userInput" placeholder="הכנס שאלה...">
                 <button class="send-button" [disabled]="isLoading()" type="submit">שלח</button>
+                <button class="send-button" type="button" [disabled]="isLoading()" (click)="phraseWithAi()">
+                    נסח עם AI
+                </button>
             </form>
         </footer>
-
-
     </div>
 </div>

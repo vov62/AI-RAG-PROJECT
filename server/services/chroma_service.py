@@ -59,8 +59,8 @@ def load_pdfs_into_chroma():
 
             # פיצול הטקסט ל-chunks
             splitter = RecursiveCharacterTextSplitter(
-                chunk_size=500,
-                chunk_overlap=50
+                chunk_size=1000,
+                chunk_overlap=200
             )
             chunks = splitter.split_text(full_text)
 
