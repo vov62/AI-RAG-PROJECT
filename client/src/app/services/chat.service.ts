@@ -16,8 +16,7 @@ export class ChatService {
     }
     // ניסוח טקסט מחדש
     rephraseQuery(query: string) {
-        const headers = new HttpHeaders({ 'Content-Type': 'application/json' })
-        return this.http.post(`${this.baseUrl}/rephrase`, { query }, { headers });
+        return this.http.post(`${this.baseUrl}/rephrase`, { query });
     }
 
     // הוספת טקסט להיסטוריה

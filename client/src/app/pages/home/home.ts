@@ -81,7 +81,11 @@ export class Home implements AfterViewInit {
 
 
   formatAIResponse(response: string): string {
-    if (!response) return '';
+    // if (!response) return '';
+    if (!response || typeof response !== 'string') {
+      // console.warn('Invalid response format:', response);
+      return '<p> שגיאה בעיבוד התשובה מהשרת</p>';
+    }
 
     // מחליף כוכביות בטקסט מודגש
     const cleanText = response.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
@@ -100,7 +104,6 @@ export class Home implements AfterViewInit {
 
   toggleDarkMode() {
     this.isDarkMode.set(!this.isDarkMode())
-    // console.log('change');
   }
 
   // ניסוח של השאלה

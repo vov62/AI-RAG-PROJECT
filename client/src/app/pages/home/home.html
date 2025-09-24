@@ -40,14 +40,17 @@
                 </div>
             </div>
             }
+
+
         </main>
 
         <footer>
             <form [formGroup]="formInput" (ngSubmit)="sendQuery()" class="chat-input">
                 <input type="text" formControlName="userInput" placeholder="הכנס שאלה...">
                 <button class="send-button" [disabled]="isLoading()" type="submit">שלח</button>
+
                 <button class="send-button" type="button" [disabled]="isLoading()" (click)="phraseWithAi()">
-                    נסח עם AI
+                    לנסח עם AI
                 </button>
             </form>
         </footer>

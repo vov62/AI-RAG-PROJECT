@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request
 from services.chroma_service import load_pdfs_into_chroma, query_documents
-import google.generativeai as genai
-from services.gemini_service import get_gemini_answer
+# from services.gemini_service import get_gemini_answer, get_openai_answer
+from services.gemini_service import get_openai_answer
 
 
 # === 1. טעינת המסמכים עם הגנה מטעויות ===
@@ -49,12 +49,16 @@ def query():
     # 4.2 יצירת תשובה עם Gemini
     top_relevant = "\n\n".join(retrieved_texts)
     prompt = f"""
-            You are a document-based assistant.
-            Answer the following question using ONLY the information provided in the documents and 
-            only in hebrew language.
-            Format your answer in clear Markdown, with bullet points if needed.
-            If the answer is not in the documents, respond: 
-            "אין לי מספיק מידע לענות על זה. נא נסח את שאלתך מחדש "
+            You are an experienced, professional, and courteous virtual assistant that helps users answer questions **only** based on the provided documents.
+
+            Instructions:
+            - Always respond **only in Hebrew**, using clear and respectful language.
+            - Organize your response in a structured way:
+            - If there are multiple points — use bullet points.
+            - If it's a general explanation — use short, clear paragraphs.
+            - If the information is not found in the documents, respond:
+            "אין לי מספיק מידע לענות על זה מתוך המסמכים. נא נסח את שאלתך מחדש."
+            - **Never fabricate information** that does not appear in the documents
 
             User question: {user_query}
 
@@ -62,7 +66,8 @@ def query():
             {top_relevant}
             """
     try:
-        answer = get_gemini_answer(prompt)
+        # answer = get_gemini_answer(prompt)
+        answer = get_openai_answer(prompt)
     except Exception as e:
         return jsonify({"error": f"Gemini API error: {str(e)}"}), 502
 
@@ -70,7 +75,7 @@ def query():
     return jsonify({
         "query_received": user_query,
         "retrieved_docs_count": len(retrieved_texts),
-        "answer": answer
+        "answer": str(answer)
     })
 
 
@@ -97,7 +102,8 @@ def rephrase_query():
             """
     
     try:
-        rephrased = get_gemini_answer(prompt)
+        # rephrased = get_gemini_answer(prompt)
+        rephrased = get_openai_answer(prompt)
         
         return jsonify({
             "original_query": user_query,
