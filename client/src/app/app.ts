@@ -6,7 +6,7 @@ import { Home } from './pages/home/home';
   selector: 'app-root',
   imports: [RouterOutlet, Home],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrls: ['./app.css'],
 })
 export class App {
 }

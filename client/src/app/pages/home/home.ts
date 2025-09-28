@@ -4,12 +4,15 @@ import { HttpClient } from '@angular/common/http';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ChatService } from '../../services/chat.service';
 import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon'
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+
 
 @Component({
   selector: 'app-home',
-  imports: [Skeleton, ReactiveFormsModule, CommonModule],
+  imports: [Skeleton, ReactiveFormsModule, CommonModule, MatIconModule, MatSlideToggleModule],
   templateUrl: './home.html',
-  styleUrl: './home.css'
+  styleUrl: './home.css',
 })
 export class Home implements AfterViewInit {
 
