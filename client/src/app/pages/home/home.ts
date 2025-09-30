@@ -4,13 +4,12 @@ import { HttpClient } from '@angular/common/http';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ChatService } from '../../services/chat.service';
 import { CommonModule } from '@angular/common';
-import { MatIconModule } from '@angular/material/icon'
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+
 
 
 @Component({
   selector: 'app-home',
-  imports: [Skeleton, ReactiveFormsModule, CommonModule, MatIconModule, MatSlideToggleModule],
+  imports: [Skeleton, ReactiveFormsModule, CommonModule],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
@@ -111,7 +110,7 @@ export class Home implements AfterViewInit {
     this.isLoading.set(true);
     this.chatService.rephraseQuery(userInput).subscribe({
       next: (res: any) => {
-        console.log("rephrased_query:", res);
+        // console.log("rephrased_query:", res);
 
         if (res.rephrased_query) {
           this.formInput.patchValue({ userInput: res.rephrased_query })

@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 
 @Injectable({
@@ -11,10 +11,6 @@ export class ChatService {
     private baseUrl: string = 'http://127.0.0.1:5000/api';
 
     // שליחת יוזר אינפוט
-    // postquery(userQuery: { query: string }) {
-    //     return this.http.post(`${this.baseUrl}/query`, userQuery)
-    // }
-
     postquery(body: any) {
         return this.http.post(`${this.baseUrl}/query`, body)
     }

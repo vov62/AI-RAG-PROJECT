@@ -40,7 +40,6 @@
     scrollbar-color: #000 transparent;
     padding: 10px;
     background: var(--chat-bg, #f9f9f9);
-    /* border: 1px solid #ddd; */
     border-radius: 8px;
 }
 
@@ -68,7 +67,6 @@
 
 .bubble.user {
     background: linear-gradient(145deg, #3a82f7, #2f6dd0);
-    /* background: #0078ff; */
     color: #fff;
     text-align: right;
 }
