@@ -37,12 +37,7 @@ The user can ask questions in a chat interface, and the system will provide accu
 
 ## 📸 Screenshots
 
-> Add screenshots here once uploaded (e.g. chat interface, light/dark mode examples).
-
-Example:  
-![Chat UI Screenshot](./images/chat-ui.png)
-
----
+## <img width="600" height="auto" alt="image" src="https://github.com/user-attachments/assets/0b2c47f3-5ab3-4282-a50c-b3973df7ff78" />
 
 ## ⚡ Getting Started
 
@@ -61,24 +56,35 @@ Example:
    ```
 
 Install server dependencies:
-cd server
-pip install -r requirements.txt
-
-Install frontend dependencies:
-cd client
-npm install
-
-create .env file with your API AI keys
-OPENAI_API_KEY=your_key_here
-
-Run the backend(Flask):
-cd server
-python app.js
-
-Run the frontend(Angular):
-cd client
-npm start
 
 ```
+cd server
+pip install -r requirements.txt
+```
 
+Install frontend dependencies:
+
+```
+cd client
+npm install
+```
+
+create .env file with your API AI keys:
+
+```
+OPENAI_API_KEY=your_key_here
+```
+
+Run the backend(Flask):
+
+```
+cd server
+python app.js
+```
+
+Run the frontend(Angular):
+
+```
+cd client
+npm start
 ```
