@@ -11,19 +11,23 @@ export class ChatService {
     private baseUrl: string = 'http://127.0.0.1:5000/api';
 
     // שליחת יוזר אינפוט
-    postquery(userQuery: { query: string }) {
-        return this.http.post(`${this.baseUrl}/query`, userQuery)
+    // postquery(userQuery: { query: string }) {
+    //     return this.http.post(`${this.baseUrl}/query`, userQuery)
+    // }
+
+    postquery(body: any) {
+        return this.http.post(`${this.baseUrl}/query`, body)
     }
     // ניסוח טקסט מחדש
     rephraseQuery(query: string) {
         return this.http.post(`${this.baseUrl}/rephrase`, { query });
     }
 
-    // הוספת טקסט להיסטוריה
+    // שליחת היסטוריה של הודעות לAI
     addToHistory(userInput: string, aiResponse: string) {
         this.chatHistory.update(history => [
             ...history,
-            { user: userInput, bot: aiResponse }
+            { user: userInput, bot: aiResponse },
         ]);
         this.saveHistoryToLocalStorage();
         return this.chatHistory
@@ -36,6 +40,7 @@ export class ChatService {
     private saveHistoryToLocalStorage() {
         localStorage.setItem("chatHistory", JSON.stringify(this.chatHistory()));
     }
+
     loadHistoryFromLocalStorage() {
         const savedHistory = localStorage.getItem("chatHistory");
         if (savedHistory) {

@@ -14,6 +14,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
+
 export class Home implements AfterViewInit {
 
   private chatService = inject(ChatService)
@@ -30,7 +31,6 @@ export class Home implements AfterViewInit {
   formInput: FormGroup = new FormGroup({
     userInput: new FormControl('', [Validators.required]),
   })
-
 
   ngOnInit() {
     this.chatService.loadHistoryFromLocalStorage();
@@ -51,37 +51,31 @@ export class Home implements AfterViewInit {
     this.errorMessage.set('');
     this.isLoading.set(true)
 
-    this.chatService.postquery({ query: this.userInput() }).subscribe({
+    const body = {
+      query: this.userInput(),
+      history: this.chatHistory().map(msg => ([
+        { role: "user", content: msg.user },
+        { role: "assistant", content: msg.bot }
+      ])).flat()
+    }
+
+    this.chatService.postquery(body).subscribe({
       next: (res: any) => {
         // console.log('Query response:', res);
         this.chatService.addToHistory(this.userInput(), res.answer)
-        localStorage.setItem("chatHistory", JSON.stringify(this.chatHistory()))
-        this.isLoading.set(false);
         this.formInput.reset();
         this.isLoading.set(false);
         this.scrollToBottom();
       },
       error: (err) => {
         console.error('Error from server:', err);
-        this.errorMessage.set('something went wrong, try to refresh the page')
+        this.errorMessage.set('משהו השתבש, נסה שוב')
         this.isLoading.set(false);
       }
     })
     setTimeout(() => this.scrollToBottom(), 0);
 
   }
-
-  private scrollToBottom() {
-    const container = document.querySelector('.chat-history');
-    if (!container) return;
-
-    container.scrollTo({
-      top: container.scrollHeight,
-      behavior: 'smooth'
-    })
-
-  }
-
 
   formatAIResponse(response: string): string {
     // if (!response) return '';
@@ -104,10 +98,6 @@ export class Home implements AfterViewInit {
     return `<ul dir="rtl">${html}</ul>`;
   }
 
-
-  toggleDarkMode() {
-    this.isDarkMode.set(!this.isDarkMode())
-  }
 
   // ניסוח של השאלה
   phraseWithAi() {
@@ -134,11 +124,26 @@ export class Home implements AfterViewInit {
         console.log('Error rephrasing query:', err);
         this.errorMessage.set('שגיאה בעת ניסוח מחדש, נסה שוב')
         this.isLoading.set(false)
-
       },
     })
 
   }
+
+  private scrollToBottom() {
+    const container = document.querySelector('.chat-history');
+    if (!container) return;
+
+    container.scrollTo({
+      top: container.scrollHeight,
+      behavior: 'smooth'
+    })
+
+  }
+
+  toggleDarkMode() {
+    this.isDarkMode.set(!this.isDarkMode())
+  }
+
 }
 
 

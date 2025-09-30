@@ -1,18 +1,13 @@
 <div class="home">
-
     <div class="chat-container" [class.dark-mode]="isDarkMode()">
         <header class="chat-header">
             <h2> AI Assistant 🤖</h2>
 
             <div>
                 <button class="theme-toggle" (click)="toggleDarkMode()">
-                    <!-- {{ isDarkMode() ? '☀️' : '🌙' }} -->
-                    <mat-slide-toggle>
-                        {{ isDarkMode() ? '☀️' : '🌙' }}
-                    </mat-slide-toggle>
+                    {{ isDarkMode() ? '☀️' : '🌙' }}
                 </button>
             </div>
-
         </header>
 
         <main class="chat-history" #chatContainer>
@@ -43,7 +38,6 @@
                 </div>
             </div>
             }
-
 
         </main>
         <footer>
