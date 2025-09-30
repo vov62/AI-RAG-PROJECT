@@ -1,45 +1,46 @@
 # 🤖 AI-RAG Chatbot Project
 
-This project is a **Question & Answer (Q&A) system** based on **RAG (Retrieval-Augmented Generation)**.  
+This project is a **Question & Answer system** based on **RAG (Retrieval-Augmented Generation)**.  
 The user can ask questions in a chat interface, and the system will provide accurate answers **only** based on the uploaded documents (PDFs).
 
 ---
 
-## 🚀 Technologies Used
+## Technologies Used
 
 ### Frontend
 
-- [Angular](https://angular.dev/) — modern and interactive user interface.
+- [Angular] + TypeScript — modern and interactive user interface.
 - [TypeScript](https://www.typescriptlang.org/) — strong typing and clean code.
-- [TailwindCSS / Custom CSS] — lightweight and modern design.
+- Custom CSS— lightweight and modern design.
 - Built-in **Dark/Light Mode**.
-- Support for **emojis** and user-friendly UX.
 
 ### Backend
 
-- [Python](https://www.python.org/) + [Flask](https://flask.palletsprojects.com/) — fast and flexible API server.
-- [ChromaDB](https://www.trychroma.com/) — vector database for storing and retrieving document embeddings.
-- [OpenAI](https://openai.com/) — large language models (LLMs) used for natural language understanding and answer generation.
-- [LangChain](https://www.langchain.com/) — orchestration and RAG logic.
+- [Python]+ [Flask] — fast and flexible API server.
+- [ChromaDB]— vector database for storing and retrieving document embeddings.
+- [OpenAI] — large language models (LLMs) used for natural language understanding and answer generation.
+- [LangChain] — orchestration and RAG logic.
 
 ---
 
-## 📂 Project Features
+## Project Features
 
 - Upload multiple PDF documents.
 - Search and query based on **relevant context** from the documents.
 - AI answers only based on the documents — no hallucinations.
 - Smart conversation memory — the assistant remembers previous questions in the chat.
 - Option to **rephrase user queries with AI** before sending.
-- Error handling with clear messages in the UI.
 
 ---
 
-## 📸 Screenshots
+## Screenshots
 
-## <img width="600" height="auto" alt="image" src="https://github.com/user-attachments/assets/0b2c47f3-5ab3-4282-a50c-b3973df7ff78" />
+## <img width="700" height="auto" alt="image" src="https://github.com/user-attachments/assets/0b2c47f3-5ab3-4282-a50c-b3973df7ff78" />
 
-## ⚡ Getting Started
+<br>
+<img width="700" height="auto" alt="1" src="https://github.com/user-attachments/assets/90840bfa-d8cd-45dc-a25c-e3323424ffa1" />
+
+## Getting Started
 
 ### Prerequisites
 
@@ -49,11 +50,12 @@ The user can ask questions in a chat interface, and the system will provide accu
 
 ### Setup
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/vov62/AI-RAG-Project.git
-   cd AI-RAG-Project
-   ```
+Clone the repository:
+
+```bash
+git clone https://github.com/vov62/AI-RAG-Project.git
+cd AI-RAG-Project
+```
 
 Install server dependencies:
 
@@ -75,14 +77,14 @@ create .env file with your API AI keys:
 OPENAI_API_KEY=your_key_here
 ```
 
-Run the backend(Flask):
+Run the backend:
 
 ```
 cd server
 python app.js
 ```
 
-Run the frontend(Angular):
+Run the frontend:
 
 ```
 cd client
