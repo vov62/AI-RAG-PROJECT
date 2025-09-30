@@ -9,17 +9,16 @@ The user can ask questions in a chat interface, and the system will provide accu
 
 ### Frontend
 
-- [Angular] + TypeScript — modern and interactive user interface.
-- [TypeScript](https://www.typescriptlang.org/) — strong typing and clean code.
+- Angular + TypeScript — modern and interactive user interface.
 - Custom CSS— lightweight and modern design.
 - Built-in **Dark/Light Mode**.
 
 ### Backend
 
-- [Python]+ [Flask] — fast and flexible API server.
-- [ChromaDB]— vector database for storing and retrieving document embeddings.
-- [OpenAI] — large language models (LLMs) used for natural language understanding and answer generation.
-- [LangChain] — orchestration and RAG logic.
+- Python+ Flask — fast and flexible API server.
+- ChromaDB— vector database for storing and retrieving document embeddings.
+- OpenAI — large language models (LLMs) used for natural language understanding and answer generation.
+- LangChain — orchestration and RAG logic.
 
 ---
 
@@ -42,19 +41,13 @@ The user can ask questions in a chat interface, and the system will provide accu
 
 ## Getting Started
 
-### Prerequisites
-
-- Node.js (for Angular frontend)
-- Python 3.10+
-- Virtual environment for Python dependencies
-
 ### Setup
 
 Clone the repository:
 
 ```bash
 git clone https://github.com/vov62/AI-RAG-Project.git
-cd AI-RAG-Project
+cd AI-RAG_Chromadb-Project
 ```
 
 Install server dependencies:
@@ -71,7 +64,7 @@ cd client
 npm install
 ```
 
-create .env file with your API AI keys:
+create .env file with your OPENAI API keys:
 
 ```
 OPENAI_API_KEY=your_key_here
