@@ -17,7 +17,7 @@ The user can ask questions in a chat interface, and the system will provide accu
 
 - Python+ Flask — fast and flexible API server.
 - ChromaDB— vector database for storing and retrieving document embeddings.
-- OpenAI — large language models (LLMs) used for natural language understanding and answer generation.
+- OpenAI — large language models (LLMs) used for natural language understanding and answer generation model.
 - LangChain — orchestration and RAG logic.
 
 ---

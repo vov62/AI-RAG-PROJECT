@@ -5,8 +5,6 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 # from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction
 from chromadb.utils.embedding_functions import OpenAIEmbeddingFunction
 
-
-# === הגדרות בסיס ===
 CHROMA_DB_DIR = "./server/chroma_db"  # מיקום לשמירת בסיס הנתונים
 PDF_DIR = "./data"             # תיקייה שבה שמורים ה-PDFים
 COLLECTION_NAME = "knowledge_base"    # שם הקולקציה הראשית
@@ -35,7 +33,7 @@ def get_or_create_collection():
         embedding_function=get_embedding_function()
     )
 
-# === שלב 1: טעינת PDFים לתוך ChromaDB ===
+#  טעינת PDF לתוך ChromaDB
 def load_pdfs_into_chroma():
     """
     קורא את כל ה-PDFים בתיקייה,
@@ -72,7 +70,7 @@ def load_pdfs_into_chroma():
 
     print(f"Finished loading PDFs. Total documents in DB: {collection.count()}")
 
-# === שלב 2: חיפוש במסמכים ===
+#  חיפוש במסמכים 
 def query_documents(query, n_results=8):
     """
     מבצע חיפוש במסמכים לפי שאלה של המשתמש.
