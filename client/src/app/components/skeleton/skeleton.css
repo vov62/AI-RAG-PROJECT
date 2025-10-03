@@ -30,12 +30,6 @@
     border-radius: 10px;
 }
 
-.user-card .name4 {
-    max-width: 100%;
-    min-height: 14px;
-    border-radius: 10px;
-}
-
 .user-card>* {
     margin: 16px 0px;
 }

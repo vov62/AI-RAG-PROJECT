@@ -2,31 +2,21 @@ import os
 import chromadb
 from pypdf import PdfReader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-# from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction
 from chromadb.utils.embedding_functions import OpenAIEmbeddingFunction
 
 CHROMA_DB_DIR = "./server/chroma_db"  # מיקום לשמירת בסיס הנתונים
 PDF_DIR = "./data"             # תיקייה שבה שמורים ה-PDFים
 COLLECTION_NAME = "knowledge_base"    # שם הקולקציה הראשית
 
-
+# יצירת פונקציית EMBEDDING
 def get_embedding_function():
-    """
-    יוצר פונקציית Embedding - אחראית להפוך טקסט למספרים
-    כדי ש-ChromaDB יוכל לבצע חיפוש סמנטי.
-    """
-    # return SentenceTransformerEmbeddingFunction(
-    #     model_name="sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
-    # )
-
     return OpenAIEmbeddingFunction(
         api_key=os.getenv("OPENAI_API_KEY"),
         model_name="text-embedding-3-large"       
     )
 
+# יוצר או מחזיר COLLECTION
 def get_or_create_collection():
-    """יוצר או מחזיר collection קיימת בשם שקבענו."""
-    """יוצר חיבור פרסיסטנטי ל-ChromaDB (שנשמר בדיסק)."""
     client = chromadb.PersistentClient(path=CHROMA_DB_DIR)
     return client.get_or_create_collection(
         name=COLLECTION_NAME,
@@ -35,11 +25,6 @@ def get_or_create_collection():
 
 #  טעינת PDF לתוך ChromaDB
 def load_pdfs_into_chroma():
-    """
-    קורא את כל ה-PDFים בתיקייה,
-    מפרק אותם לטקסטים קטנים (chunks),
-    ומכניס אותם לתוך ChromaDB.
-    """
     collection = get_or_create_collection()
     print("Loading PDFs into ChromaDB...")
 
@@ -72,8 +57,5 @@ def load_pdfs_into_chroma():
 
 #  חיפוש במסמכים 
 def query_documents(query, n_results=8):
-    """
-    מבצע חיפוש במסמכים לפי שאלה של המשתמש.
-    """
     collection = get_or_create_collection()
     return collection.query(query_texts=[query], n_results=n_results)

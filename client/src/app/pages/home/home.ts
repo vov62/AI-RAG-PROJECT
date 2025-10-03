@@ -5,8 +5,6 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ChatService } from '../../services/chat.service';
 import { CommonModule } from '@angular/common';
 
-
-
 @Component({
   selector: 'app-home',
   imports: [Skeleton, ReactiveFormsModule, CommonModule],

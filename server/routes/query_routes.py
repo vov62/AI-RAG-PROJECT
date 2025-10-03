@@ -18,7 +18,6 @@ def ping():
     return jsonify({"message": "Flask API is running!"})
 
 # קבלת שאלה מהיוזר 
-
 @query_bp.route("/query", methods=["POST"])
 def query():
     data = request.get_json()
@@ -35,8 +34,6 @@ def query():
     except Exception as e:
         return jsonify({"error": f"Failed to query ChromaDB: {str(e)}"}), 500
 
-    # chroma_result = query_documents(user_query,n_results=5)
-
     if not retrieved_texts:
         return jsonify({
             "query_received": user_query,
@@ -44,7 +41,7 @@ def query():
         }),404
 
 
-    # יצירת תשובה עם Gemini
+    # יצירת תשובה עם OPENAI
     top_relevant = "\n\n".join(retrieved_texts)
 
     messages = [
