@@ -45,6 +45,10 @@
               ],
               "outputHashing": "all"
             },
+            "docker": {
+              "outputPath": "dist/AI-RAG_Chromadb-Project",
+              "baseHref": "/"
+            },
             "development": {
               "optimization": false,
               "extractLicenses": false,
@@ -60,7 +64,8 @@
               "buildTarget": "AI-RAG_Chromadb-Project:build:production"
             },
             "development": {
-              "buildTarget": "AI-RAG_Chromadb-Project:build:development"
+              "buildTarget": "AI-RAG_Chromadb-Project:build:development",
+              "proxyConfig": "proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"

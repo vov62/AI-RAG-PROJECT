@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
+import { environment } from '../../environments/environment.prod';
+
 
 @Injectable({
     providedIn: 'root'
@@ -8,7 +10,10 @@ export class ChatService {
 
     http = inject(HttpClient)
     chatHistory = signal<{ user: string, bot: string }[]>([]);
-    private baseUrl: string = 'http://127.0.0.1:5000/api';
+    // private baseUrl: string = 'http://127.0.0.1:5000/api';
+    // פרודוקשיין
+    private baseUrl = environment.apiUrl;
+
 
     // שליחת יוזר אינפוט
     postquery(body: any) {

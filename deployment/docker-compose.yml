@@ -1,0 +1,44 @@
+
+# services:
+#   backend:
+#     build: ./server
+#     container_name: flask_app
+#     ports:
+#       - "5000:5000"
+#     environment:
+#       - OPENAI_API_KEY=${OPENAI_API_KEY}
+#     restart: always
+
+#   frontend:
+#     build: ./client
+#     ports: 
+#       - "80:80"
+#     restart: always
+
+
+
+services:
+  backend:
+    build: 
+      context: ..
+      dockerfile: deployment/Dockerfile.backend
+    container_name: backend
+    ports:
+      - "5000:5000"
+    env_file:
+      - ../.env
+    environment:
+      - FLASK_ENV=production
+    restart: always
+
+  frontend:
+    build: 
+      context: ..
+      dockerfile: deployment/Dockerfile.frontend
+    container_name: frontend
+    ports: 
+      - "8087:80"
+    depends_on:
+      - backend
+    restart: always
+
