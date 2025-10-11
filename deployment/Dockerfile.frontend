@@ -5,7 +5,7 @@ WORKDIR /app
 COPY client/package*.json ./
 RUN npm install
 
-COPY client ./
+COPY client/ ./
 
 RUN npm install -g @angular/cli
 RUN ng build --configuration production
@@ -16,4 +16,4 @@ FROM nginx:alpine
 COPY --from=build /app/dist/AI-RAG_Chromadb-Project/browser /usr/share/nginx/html
 
 # COPY nginx/default.conf /etc/nginx/conf.d/default.conf
-COPY ../deployment/default.conf /etc/nginx/conf.d/default.conf
+COPY deployment/default.conf /etc/nginx/conf.d/default.conf
