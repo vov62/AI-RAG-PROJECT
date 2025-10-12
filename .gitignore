@@ -6,7 +6,7 @@ dist/
 __pycache__/
 *.pyc
 *.pyo
-*.pdf
+# *.pdf
 *.docx
 venv/
 /server/server/chroma_db/
