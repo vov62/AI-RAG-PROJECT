@@ -43,7 +43,6 @@ def query():
 
     # יצירת תשובה עם OPENAI
     top_relevant = "\n\n".join(retrieved_texts)
-
     messages = [
         {
             "role": "system",
