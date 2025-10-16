@@ -100,7 +100,7 @@ This project was deployed on an AWS EC2 instance using Docker Compose, and made 
 
 First i created a new EC2 Instance on AWS.
 
-Then i connect to the ec2 instance via ssh:
+I connect to the ec2 instance via ssh:
 
 ```
 ssh -i "your-key.pem" ubuntu@<EC2-PUBLIC-IP>
@@ -121,13 +121,13 @@ git clone https://github.com/vov62/AI-RAG-Project.git
 cd AI-RAG_Chromadb-Project
 ```
 
-create .env file inside the project root and enter my OPENAI API key:
+Create .env file inside the project root and enter my OPENAI API key:
 
 ```
 OPENAI_API_KEY=your_openai_api_key
 ```
 
-build and run with docker-compose:
+Build and run with docker-compose:
 
 ```
 docker-compose up --build -d
