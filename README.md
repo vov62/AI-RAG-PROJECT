@@ -9,22 +9,21 @@ The user can ask questions in a chat interface, and the system will provide accu
 
 ### Frontend
 
-- Angular + TypeScript — modern and interactive user interface.
-- Custom CSS— lightweight and modern design.
+- **Angular + TypeScript** — modern and interactive user interface.
 - Built-in **Dark/Light Mode**.
 
 ### Backend
 
-- Python+ Flask — fast and flexible API server.
-- ChromaDB— vector database for storing and retrieving document embeddings.
-- OpenAI — large language models (LLMs) used for natural language
+- **Python + Flask** — API server.
+- **ChromaDB** — vector database for storing and retrieving document embeddings.
+- **OpenAI** — large language models (LLMs) used for natural language
   understanding and answer generation model.
-- LangChain — orchestration and RAG logic.
+- **LangChain** — orchestration and RAG logic.
 
 ### Deployment
 
-- AWS CLOUD - hosting the application.
-- Docker & Docker-compose - containerized deployment on an EC2 instance.
+- **AWS CLOUD** - hosting the application.
+- **Docker & Docker-compose** - containerized deployment on an EC2 instance.
 
   LIVE - coming soon.
 
@@ -134,5 +133,5 @@ docker-compose up --build -d
 
 This will launches 2 containers:
 
-- Frontend Container (Angular + Nginx)
-- Backend Container (Flask + OPENAI)
+- **Frontend Container** (Angular + Nginx)
+- **Backend Container** (Flask + OPENAI)
