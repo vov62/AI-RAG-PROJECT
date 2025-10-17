@@ -1,7 +1,7 @@
 # 🤖 AI-RAG Chatbot Project
 
 This project is a **Question & Answer system** based on **RAG (Retrieval-Augmented Generation)**.  
-The user can ask questions in a chat interface, and the system will provide accurate answers **only** based on the uploaded documents (PDFs).
+The user can ask questions in a chat interface, and the system will provide accurate answers **only** based on the uploaded documents (PDFs).all containerized with Docker and deployed on AWS EC2
 
 ---
 
@@ -42,7 +42,7 @@ The user can ask questions in a chat interface, and the system will provide accu
 
 ## Screenshots
 
-## <img width="700" height="auto" alt="image" src="https://github.com/user-attachments/assets/0b2c47f3-5ab3-4282-a50c-b3973df7ff78" />
+ <img width="700" height="auto" alt="image" src="https://github.com/user-attachments/assets/0b2c47f3-5ab3-4282-a50c-b3973df7ff78" />
 
 <br>
 <img width="700" height="auto" alt="1" src="https://github.com/user-attachments/assets/90840bfa-d8cd-45dc-a25c-e3323424ffa1" />
