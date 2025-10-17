@@ -9,15 +9,13 @@ try:
 except Exception as e:
     print(f"Error loading PDFs into ChromaDB: {e}")
 
-# יצירת ה-Blueprint 
 query_bp = Blueprint("query_bp", __name__)
 
-# בדיקת השרת
 @query_bp.route("/ping", methods=["GET"])
 def ping():
     return jsonify({"message": "Flask API is running!"})
 
-# קבלת שאלה מהיוזר 
+
 @query_bp.route("/query", methods=["POST"])
 def query():
     data = request.get_json()
