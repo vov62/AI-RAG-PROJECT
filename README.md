@@ -42,7 +42,10 @@ The user can ask questions in a chat interface, and the system will provide accu
 
 ## Screenshots
 
- <img width="700" height="auto" alt="image" src="https://github.com/user-attachments/assets/0b2c47f3-5ab3-4282-a50c-b3973df7ff78" />
+<img width="500" height="auto" alt="mermaid-diagram-2025-10-18-001825" src="https://github.com/user-attachments/assets/dd883075-129b-4454-bd5d-50f438df6b6e" />
+
+<br>
+<img width="700" height="auto" alt="image" src="https://github.com/user-attachments/assets/0b2c47f3-5ab3-4282-a50c-b3973df7ff78" />
 
 <br>
 <img width="700" height="auto" alt="1" src="https://github.com/user-attachments/assets/90840bfa-d8cd-45dc-a25c-e3323424ffa1" />
