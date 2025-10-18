@@ -25,7 +25,7 @@ The user can ask questions in a chat interface, and the system will provide accu
 - **AWS CLOUD** - hosting the application.
 - **Docker & Docker-compose** - containerized deployment on an EC2 instance.
 
-  LIVE - coming soon.
+  LIVE - http://airagproject.duckdns.org/
 
 ---
 
